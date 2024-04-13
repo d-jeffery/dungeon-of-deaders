@@ -1,19 +1,23 @@
-import { Redhat } from '../objects/redhat';
+// import { Redhat } from '../objects/redhat';
+// @ts-ignore
+import bsp from 'bsp-tree'
 
 export class GameScene extends Phaser.Scene {
-  private myRedhat: Redhat;
+    private bsp: any
 
-  constructor() {
-    super({ key: 'GameScene' });
-  }
+    constructor() {
+        super({ key: 'GameScene' })
+    }
 
-  preload(): void {
-    this.load.image('redhat', '../assets/redhat.png');
-    this.load.image('redParticle', '../assets/red.png');
-  }
+    preload(): void {
+        this.bsp = bsp(8)
+        let vertical = true
+    }
 
-  create(): void {
-    const emitter = this.add.particles(0, 0, 'redParticle', {
+    create(): void {
+        /*
+
+   const emitter = this.add.particles(0, 0, 'redParticle', {
       speed: 100,
       scale: { start: 0.5, end: 0 },
       blendMode: 'ADD'
@@ -27,5 +31,7 @@ export class GameScene extends Phaser.Scene {
     });
 
     emitter.startFollow(this.myRedhat);
-  }
+
+*/
+    }
 }
