@@ -1,8 +1,9 @@
 import { GameScene } from './scenes/game-scene';
+import {BootScene} from "./scenes/boot-scene";
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Dungeon Of Deaders',
-  url: 'https://github.com/digitsensitive/phaser3-typescript',
+  url: 'https://github.com/d-jeffery/dungeon-of-deaders',
   version: '0.0.1',
   backgroundColor: 0x3a404d,
   type: Phaser.AUTO,
@@ -19,5 +20,5 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
       gravity: { x: 0, y: 100 }
     }
   },
-  scene: [GameScene]
+  scene: [BootScene]
 };
