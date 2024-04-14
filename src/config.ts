@@ -4,7 +4,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     title: 'Dungeon Of Deaders',
     url: 'https://github.com/d-jeffery/dungeon-of-deaders',
     version: '0.0.1',
-    backgroundColor: 0x3a404d,
+    backgroundColor: 0x000000, //0x3a404d,
     type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.MAX_ZOOM,
@@ -16,7 +16,8 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { x: 0, y: 100 },
+            gravity: { x: 0, y: 0 },
+            debug: true,
         },
     },
     scene: [BootScene],

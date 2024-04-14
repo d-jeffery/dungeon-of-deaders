@@ -50,7 +50,7 @@ export class BootScene extends Phaser.Scene {
             },
         })
 
-        // this.load.image('redhat', '../assets/redhat.png');
+        this.load.image('redhat', '../assets/redhat.png')
         // this.load.image('redParticle', '../assets/red.png');
 
         // load out package

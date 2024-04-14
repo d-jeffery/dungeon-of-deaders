@@ -1,17 +1,29 @@
+import * as phaser from 'phaser'
+
 export class SplashScene extends Phaser.Scene {
     constructor() {
         super({ key: 'SplashScene' })
     }
 
-    preload(): void {}
-
     create(): void {
         const { width, height } = this.game.canvas
 
         this.add
-            .text(width / 2, height / 2, 'Dungeon\nOf\nDeaders')
-            .setFontFamily("Organ")
+            .text(width / 2, height / 2 - 160, 'Dungeon\nOf\nDeaders')
+            .setFontFamily('Organ')
+            .setFontSize('64px')
             .setAlign('center')
             .setOrigin(0.5, 0.5)
+
+        this.add
+            .text(width / 2, height / 2 + 80, 'Begin')
+            .setFontFamily('Organ')
+            .setFontSize('48px')
+            .setAlign('center')
+            .setOrigin(0.5, 0.5)
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.scene.start('GameScene')
+            })
     }
 }
