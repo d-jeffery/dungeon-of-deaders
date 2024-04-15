@@ -56,6 +56,10 @@ export class BootScene extends Phaser.Scene {
         // load out package
         // this.load.pack('preload', './assets/pack.json', 'preload');
 
+        this.load.image('tiles', 'assets/tilemaps/tiles/16x16-dungeon.png');
+        this.load.tilemapTiledJSON('map', 'assets/tilemaps/map/dungeon.json');
+
+
         // Scenes
         this.scene.add('SplashScene', SplashScene, false)
         this.scene.add('GameScene', GameScene, false)

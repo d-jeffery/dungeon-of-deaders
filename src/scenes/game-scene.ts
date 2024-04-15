@@ -12,6 +12,20 @@ export class GameScene extends Phaser.Scene {
     preload(): void {}
 
     create(): void {
+
+
+        const map = this.make.tilemap({ key: 'map' });
+        const tiles = map.addTilesetImage('Dungeon', 'tiles');
+        const floor = map.createLayer(0, tiles, 0, 0);
+        const walls = map.createLayer(1, tiles, 0, 0);
+
+
+        console.dir(tiles)
+
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+
+
         this.player = new Player(this, 100, 100)
 
         if (this.input.keyboard) {
