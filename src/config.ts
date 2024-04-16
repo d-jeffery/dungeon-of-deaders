@@ -8,10 +8,12 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.MAX_ZOOM,
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: 'game',
-        width: '100%',
-        height: '100%',
+        width: '640px',
+        height: '640px'
+        // width: '100%',
+        // height: '100%',
     },
     physics: {
         default: 'arcade',
@@ -19,6 +21,9 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
             gravity: { x: 0, y: 0 },
             debug: true,
         },
+    },
+    render: {
+      pixelArt: true
     },
     scene: [BootScene],
 }

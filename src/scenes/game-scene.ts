@@ -9,22 +9,27 @@ export class GameScene extends Phaser.Scene {
         super({ key: 'GameScene' })
     }
 
-    preload(): void {}
+    preload(): void {
+
+    }
 
     create(): void {
 
 
-        const map = this.make.tilemap({ key: 'map' });
+        const map = this.add.tilemap( 'map' );
         const tiles = map.addTilesetImage('Dungeon', 'tiles');
         const floor = map.createLayer(0, tiles, 0, 0);
         const walls = map.createLayer(1, tiles, 0, 0);
+        const skeletons = map.createFromObjects('Skeleton', {gid: 290})
+        const treasure = map.createFromObjects('Treasure', {gid: 368})
 
+        const prisoners = map.createFromObjects('Prisoners', {gid: 458})
+        const player = map.createFromObjects('Player', {gid: 496})
 
-        console.dir(tiles)
+        console.dir(map.getObjectLayer('Prisoners'))
 
+        this.cameras.main.setZoom(2,2)
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-
 
         this.player = new Player(this, 100, 100)
 
