@@ -15,7 +15,6 @@ export class GameScene extends Phaser.Scene {
 
     create(): void {
 
-
         const map = this.add.tilemap( 'map' );
         const tiles = map.addTilesetImage('Dungeon', 'tiles');
         const floor = map.createLayer(0, tiles, 0, 0);
@@ -24,14 +23,15 @@ export class GameScene extends Phaser.Scene {
         const treasure = map.createFromObjects('Treasure', {gid: 368})
 
         const prisoners = map.createFromObjects('Prisoners', {gid: 458})
-        const player = map.createFromObjects('Player', {gid: 496})
 
-        console.dir(map.getObjectLayer('Prisoners'))
+        this.player = map.createFromObjects('Player', {gid: 496, classType: Player}).pop() as Player
+        this.player.setTexture("player").setOffset(0.5, 0.5)
 
         this.cameras.main.setZoom(2,2)
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-        this.player = new Player(this, 100, 100)
+        //this.player = new Player(this, 100, 100)
+        console.log(this.player)
 
         if (this.input.keyboard) {
             this.keys = this.input.keyboard.addKeys(
@@ -62,7 +62,7 @@ export class GameScene extends Phaser.Scene {
     update(time: number, delta: number) {
         super.update(time, delta)
 
-        const maxSpeed = 100
+        const maxSpeed = 60
         let walkVector = new Vector2(0, 0)
 
         if (this.keys) {
