@@ -1,3 +1,9 @@
 import { BaseSprite } from './base-sprite'
 
-class Enemy extends BaseSprite {}
+export class Enemy extends BaseSprite {
+    constructor(scene: Phaser.Scene, x: number, y: number) {
+        super(scene, x, y)
+
+
+    }
+}

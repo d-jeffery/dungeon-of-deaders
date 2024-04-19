@@ -9,14 +9,14 @@ export class SplashScene extends Phaser.Scene {
         const { width, height } = this.game.canvas
 
         this.add
-            .text(width / 2, height / 2 - 160, 'Dungeon\nOf\nDeaders')
+            .text(width / 2, height / 2 - 80, 'Dungeon\nOf\nDeaders')
             .setFontFamily('Organ')
             .setFontSize('64px')
             .setAlign('center')
             .setOrigin(0.5, 0.5)
 
         this.add
-            .text(width / 2, height / 2 + 80, 'Begin')
+            .text(width / 2, height / 2 + 160, 'Click to Begin')
             .setFontFamily('Organ')
             .setFontSize('48px')
             .setAlign('center')

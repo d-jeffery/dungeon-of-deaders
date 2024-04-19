@@ -51,7 +51,7 @@ export class BootScene extends Phaser.Scene {
         })
 
         this.load.image('player', '../assets/npc_paladin.png')
-        // this.load.image('redParticle', '../assets/red.png');
+        this.load.image('weapon', '../assets/weapon_sword_black.png');
 
         // load out package
         // this.load.pack('preload', './assets/pack.json', 'preload');
