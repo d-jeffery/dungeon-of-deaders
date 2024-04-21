@@ -4,6 +4,8 @@ import Vector2 = Phaser.Math.Vector2
 import { Prisoner } from '../objects/prisoner'
 import TilemapLayer = Phaser.Tilemaps.TilemapLayer
 import { Sword } from '../objects/sword'
+import GameObject = Phaser.GameObjects.GameObject
+import GameObjectWithBody = Phaser.Types.Physics.Arcade.GameObjectWithBody
 
 export class GameScene extends Phaser.Scene {
     private player: Player
@@ -52,7 +54,7 @@ export class GameScene extends Phaser.Scene {
         });
 
         this.cameras.main.setZoom(2,2)
-        //this.cameras.main.setBounds(floor.x, floor.y, map.widthInPixels, map.heightInPixels);
+        this.cameras.main.setBounds(floor.x, floor.y, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player)
 
         if (this.input.keyboard) {
@@ -69,14 +71,17 @@ export class GameScene extends Phaser.Scene {
 
             this.sword = new Sword(this, x1, y1)
                 .setRotation(angleToPointer + (90*Math.PI/180))
-                .setOrigin(0.5, 0.5)
+                .setOrigin(0.5, 0.5);
 
-            // this.time.addEvent({
-            //     delay: 100,
-            //     callback: () => {
-            //        this.sword.destroy(true)
-            //     }
-            // })
+            this.physics.add.collider(this.sword, monsters, (object1: GameObjectWithBody, object2: GameObjectWithBody) => {
+                const x = object2.body.x - this.player.body.x;
+                const y = object2.body.y - this.player.body.y;
+                const vector = new Vector2(x, y).normalize();
+                const speed = 40;
+
+                (object2.body as Phaser.Physics.Arcade.Body).setVelocity(vector.x * speed, vector.y * speed)
+            });
+
         })
 
         this.input.on('pointerup', () => {

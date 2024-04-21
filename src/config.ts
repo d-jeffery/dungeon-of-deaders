@@ -10,10 +10,10 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
         mode: Phaser.Scale.MAX_ZOOM,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: 'game',
-        width: '640px',
-        height: '640px'
-        // width: '100%',
-        // height: '100%',
+        //width: '640px',
+        //height: '640px'
+        width: '100%',
+        height: '100%',
     },
     physics: {
         default: 'arcade',

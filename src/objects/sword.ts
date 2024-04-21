@@ -8,6 +8,7 @@ export class Sword extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
 
         if (this.body) {
+            this.body.onCollide = true
             this.body.setSize(16, 16)
         }
     }

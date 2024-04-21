@@ -6,6 +6,6 @@ export class Player extends BaseSprite {
 
 
         this.setSize(16, 20)
-
+        this.setCollideWorldBounds(false)
     }
 }
