@@ -18,43 +18,46 @@ export class GameScene extends Phaser.Scene {
         super({ key: 'GameScene' })
     }
 
-    preload(): void {
-
-    }
+    preload(): void {}
 
     create(): void {
-
-        const map = this.add.tilemap( 'map' );
-        const tiles = map.addTilesetImage('16x16-dungeon', 'tiles');
+        const map = this.add.tilemap('map')
+        const tiles = map.addTilesetImage('16x16-dungeon', 'tiles')
 
         const floor = map.createLayer(0, tiles)
-        this.walls = map.createLayer(1, tiles);
-        const roof = map.createLayer(2, tiles)
+        this.walls = map.createLayer(1, tiles)
+        const door = map.createLayer(2, tiles)
+        const roof = map.createLayer(3, tiles)
 
-        const monsters = map.createFromObjects('Monsters', {gid: 290, classType: Enemy})
-        const treasure = map.createFromObjects('Treasure', {gid: 368})
+        const monsters = map.createFromObjects('Monsters', {
+            gid: 290,
+            classType: Enemy,
+        })
+        const treasure = map.createFromObjects('Treasure', { gid: 368 })
 
-        const prisoners = map.createFromObjects('Prisoners', {gid: 458, classType: Prisoner})
+        const prisoners = map.createFromObjects('Prisoners', {
+            gid: 458,
+            classType: Prisoner,
+        })
 
-        this.player = map.createFromObjects('Player', {gid: 496, classType: Player}).pop() as Player
-        this.player.setTexture("player").setOffset(0.5, 0.5)
+        this.player = map
+            .createFromObjects('Player', { gid: 496, classType: Player })
+            .pop() as Player
+        this.player.setTexture('player').setOffset(0.5, 0.5)
 
-        this.walls.setCollisionByExclusion([-1]);
+        this.walls.setCollisionByExclusion([-1])
 
-        this.physics.add.collider(this.player, this.walls, () => {
-            console.log("colldie")
-        }, null, this);
+        this.physics.add.collider(this.player, this.walls)
+        this.physics.add.collider(monsters, this.walls)
+        this.physics.add.collider(this.player, monsters)
 
-        this.physics.add.collider(monsters, this.walls, () => {
-            console.log("colldie")
-        }, null, this);
-
-        this.physics.add.collider(this.player, monsters, () => {
-            console.log("colldie")
-        });
-
-        this.cameras.main.setZoom(2,2)
-        this.cameras.main.setBounds(floor.x, floor.y, map.widthInPixels, map.heightInPixels);
+        this.cameras.main.setZoom(2, 2)
+        this.cameras.main.setBounds(
+            floor.x,
+            floor.y,
+            map.widthInPixels,
+            map.heightInPixels
+        )
         this.cameras.main.startFollow(this.player)
 
         if (this.input.keyboard) {
@@ -64,24 +67,53 @@ export class GameScene extends Phaser.Scene {
         }
 
         this.input.on('pointerdown', () => {
-            const angleToPointer = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.input.activePointer.worldX, this.input.activePointer.worldY);
+            const angleToPointer = Phaser.Math.Angle.Between(
+                this.player.x,
+                this.player.y,
+                this.input.activePointer.worldX,
+                this.input.activePointer.worldY
+            )
 
-            const x1 = this.player.x + Math.cos(angleToPointer) * 20;
-            const y1 = this.player.y + Math.sin(angleToPointer) * 20;
+            const x1 = this.player.x + Math.cos(angleToPointer) * 20
+            const y1 = this.player.y + Math.sin(angleToPointer) * 20
 
             this.sword = new Sword(this, x1, y1)
-                .setRotation(angleToPointer + (90*Math.PI/180))
-                .setOrigin(0.5, 0.5);
+                .setRotation(angleToPointer + (90 * Math.PI) / 180)
+                .setOrigin(0.5, 0.5)
 
-            this.physics.add.collider(this.sword, monsters, (object1: GameObjectWithBody, object2: GameObjectWithBody) => {
-                const x = object2.body.x - this.player.body.x;
-                const y = object2.body.y - this.player.body.y;
-                const vector = new Vector2(x, y).normalize();
-                const speed = 40;
+            this.physics.add.collider(
+                this.sword,
+                monsters,
+                (object1: GameObjectWithBody, object2: GameObjectWithBody) => {
+                    if (this.player.data.list.level > object2.data.list.level) {
+                        object2.destroy(true)
+                        return
+                    }
 
-                (object2.body as Phaser.Physics.Arcade.Body).setVelocity(vector.x * speed, vector.y * speed)
-            });
+                    const x = object2.body.x - this.player.body.x
+                    const y = object2.body.y - this.player.body.y
+                    const vector = new Vector2(x, y).normalize()
+                    const speed = 40
 
+                    ;(object2.body as Phaser.Physics.Arcade.Body).setVelocity(
+                        vector.x * speed,
+                        vector.y * speed
+                    )
+                }
+            )
+
+            this.physics.add.collider(
+                this.sword,
+                prisoners,
+                (object1: GameObjectWithBody, object2: GameObjectWithBody) => {
+                    if (
+                        this.player.data.list.level >= object2.data.list.level
+                    ) {
+                        object2.destroy(true)
+                        this.player.data.list.level++
+                    }
+                }
+            )
         })
 
         this.input.on('pointerup', () => {
@@ -141,24 +173,26 @@ export class GameScene extends Phaser.Scene {
             walkVector.y * maxSpeed
         )
 
-
-
         if (this.sword && this.input.activePointer.isDown) {
-
             if (this.input.activePointer.isDown) {
-                const angleToPointer = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.input.activePointer.worldX, this.input.activePointer.worldY);
+                const angleToPointer = Phaser.Math.Angle.Between(
+                    this.player.x,
+                    this.player.y,
+                    this.input.activePointer.worldX,
+                    this.input.activePointer.worldY
+                )
 
-                const x1 = this.player.x + Math.cos(angleToPointer) * 20;
-                const y1 = this.player.y + Math.sin(angleToPointer) * 20;
+                const x1 = this.player.x + Math.cos(angleToPointer) * 20
+                const y1 = this.player.y + Math.sin(angleToPointer) * 20
 
-                this.sword.setPosition(x1, y1)
-                    .setRotation(angleToPointer + (90 * Math.PI / 180));
+                this.sword
+                    .setPosition(x1, y1)
+                    .setRotation(angleToPointer + (90 * Math.PI) / 180)
             } else {
                 this.sword.destroy(true)
                 this.sword = undefined
             }
         }
-
 
         // Turn player to pointer
         // const angleToPointer = Phaser.Math.Angle.Between(this.player.x, this.player.y, this.input.activePointer.worldX, this.input.activePointer.worldY);

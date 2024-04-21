@@ -51,14 +51,17 @@ export class BootScene extends Phaser.Scene {
         })
 
         this.load.image('player', '../assets/npc_paladin.png')
-        this.load.image('weapon', '../assets/weapon_sword_black.png');
+        this.load.image('weapon', '../assets/weapon_sword_black.png')
 
         // load out package
         // this.load.pack('preload', './assets/pack.json', 'preload');
 
-        this.load.spritesheet('tiles', 'assets/tilemaps/tiles/16x16-dungeon.png',{frameWidth: 16, frameHeight: 16});
-        this.load.tilemapTiledJSON('map', 'assets/tilemaps/map/dungeon.json');
-
+        this.load.spritesheet(
+            'tiles',
+            'assets/tilemaps/tiles/16x16-dungeon.png',
+            { frameWidth: 16, frameHeight: 16 }
+        )
+        this.load.tilemapTiledJSON('map', 'assets/tilemaps/map/dungeon.json')
 
         // Scenes
         this.scene.add('SplashScene', SplashScene, false)

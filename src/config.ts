@@ -23,7 +23,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
         },
     },
     render: {
-      pixelArt: true
+        pixelArt: true,
     },
     scene: [BootScene],
 }
